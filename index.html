@@ -1,0 +1,465 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F5F2EA;--bg2:#EDE9DC;--bg3:#E4DFD0;
+  --olive:#4A5240;--olive2:#6B7560;--olive3:#8E9A80;--olive4:#B8C4A8;--olive5:#D8E4C8;
+  --cream:#FDFAF4;--card:#FFFFFF;--border:#C8C2B0;--border2:#A8A298;
+  --txt:#2A2A22;--txt2:#3A3A2C;--txt3:#5A5A48;
+  --red:#8B2020;--redbg:#FDEAEA;
+  --amber:#7A5010;--amberbg:#FDF3E0;
+  --green:#2D5A1A;--greenbg:#EAF4E0;
+  --blue:#1A3D6B;--bluebg:#E8F0FA;
+  --teal:#0F5048;--tealbg:#E4F2EE;
+}
+body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--txt)}
+.wrap{max-width:960px;margin:0 auto;padding:12px}
+.topnav{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px;align-items:center;background:#2A2A1A;border-radius:10px;padding:8px 10px}
+.nb{padding:7px 14px;border-radius:6px;border:none;background:#4A5240;color:#FFFFFF;font-size:12px;cursor:pointer;transition:all .2s;white-space:nowrap;font-weight:700}
+.nb:hover{background:#6B7560}
+.nb.on{background:#D8E4C8;color:#1A1A10;outline:2px solid #4A5240}
+.arrows{display:flex;gap:6px;margin-left:auto}
+.ab{width:32px;height:32px;border-radius:6px;border:none;background:#4A5240;color:#FFFFFF;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;font-weight:700}
+.ab:hover{background:#6B7560}
+.ab:disabled{opacity:.35;cursor:not-allowed}
+.slide{display:none}
+.slide.on{display:block}
+.sh{background:var(--olive);border-radius:10px 10px 0 0;padding:18px 22px 14px}
+.sn{font-size:10px;color:var(--olive4);letter-spacing:3px;margin-bottom:4px;text-transform:uppercase}
+.st{font-size:21px;font-weight:700;color:#fff}
+.ss{font-size:12px;color:var(--olive4);margin-top:3px;font-style:italic}
+.sb{background:var(--cream);border-radius:0 0 10px 10px;padding:18px 20px;border:1px solid var(--border);border-top:none}
+.hint{font-size:12px;color:var(--teal);margin-bottom:14px;display:flex;align-items:center;gap:6px;background:var(--tealbg);border-radius:6px;padding:7px 12px;border:1px solid var(--olive4)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.acc{border-radius:8px;border:1px solid var(--border);overflow:hidden;margin-bottom:8px;background:var(--card)}
+.acc:hover{border-color:var(--olive3)}
+.ah{padding:11px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;background:var(--card);transition:background .2s;user-select:none}
+.ah:hover{background:var(--bg2)}
+.acc.op .ah{background:var(--olive5)}
+.ai{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.al{flex:1}
+.al-t{font-weight:600;font-size:13px;color:var(--txt)}
+.al-s{font-size:11px;color:var(--txt3);margin-top:1px}
+.chev{color:var(--olive2);font-size:11px;transition:transform .3s;flex-shrink:0}
+.acc.op .chev{transform:rotate(180deg)}
+.ab2{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.acc.op .ab2{max-height:600px}
+.ac{padding:12px 14px 14px 54px;background:var(--bg2);border-top:1px solid var(--border)}
+.ac p{font-size:12.5px;line-height:1.7;color:var(--txt2);margin-bottom:6px}
+.ac p:last-child{margin-bottom:0}
+.tag{display:inline-block;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600;margin-bottom:7px}
+.tw{background:var(--amberbg);color:var(--amber);border:1px solid #D4A830}
+.th2{background:var(--tealbg);color:var(--teal);border:1px solid var(--olive3)}
+.tc{background:var(--redbg);color:var(--red);border:1px solid #E08080}
+.tg{background:var(--greenbg);color:var(--green);border:1px solid #80B860}
+.sc{font-size:11px;color:var(--txt3);text-align:right;margin-top:10px}
+.steps{display:flex;align-items:stretch;flex-wrap:wrap;margin-bottom:10px}
+.sk{flex:1;min-width:110px;background:var(--card);border:1px solid var(--border);border-radius:8px;margin:3px;padding:10px 8px;cursor:pointer;transition:all .2s;text-align:center}
+.sk:hover,.sk.op{border-color:var(--olive);background:var(--olive5)}
+.snum{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;margin:0 auto 7px}
+.slbl{font-size:11.5px;font-weight:600;color:var(--txt);line-height:1.3}
+.ssub{font-size:10px;color:var(--txt3);margin-top:3px}
+.sarr{display:flex;align-items:center;color:var(--olive3);font-size:16px;padding:0 1px}
+.sdet{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:12px 16px;margin-top:6px;display:none}
+.sdet.on{display:block}
+.sdet p{font-size:12.5px;line-height:1.7;color:var(--txt2)}
+.layers{display:flex;flex-direction:column;gap:7px}
+.lay{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.lay:hover{border-color:var(--olive3)}
+.lh{padding:11px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .2s}
+.lh:hover{background:var(--bg2)}
+.lay.op .lh{background:var(--olive5);border-bottom:1px solid var(--border)}
+.lb2{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
+.lt{flex:1}
+.lt-h{font-weight:600;font-size:13px;color:var(--txt)}
+.lt-s{font-size:11px;color:var(--txt3);margin-top:1px}
+.lchev{color:var(--olive2);font-size:11px;transition:transform .3s}
+.lay.op .lchev{transform:rotate(180deg)}
+.lbody{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.lay.op .lbody{max-height:400px}
+.linner{padding:12px 14px 14px 50px;font-size:12.5px;line-height:1.7;color:var(--txt2);background:var(--bg2)}
+.agrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.acard{border-radius:8px;border:1px solid var(--border);overflow:hidden;background:var(--card)}
+.ahead{padding:10px 13px;font-weight:700;font-size:12.5px}
+.aitems{padding:8px 12px}
+.aitem{cursor:pointer;padding:7px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.aitem:last-child{border-bottom:none}
+.aitem:hover span{color:var(--olive)}
+.adot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.aitem span{font-size:12px;color:var(--txt);transition:color .2s}
+.aitem.op span{color:var(--olive);font-weight:600}
+.att{display:none;background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:9px 11px;margin-top:5px;font-size:12px;line-height:1.6;color:var(--txt2)}
+.aitem.op+.att{display:block}
+.dsplit{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.dcard{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.dhead{padding:11px 14px;border-bottom:1px solid var(--border);font-weight:700;font-size:13px}
+.ditems{padding:8px}
+.di{border-radius:6px;border:1px solid var(--border);padding:9px 12px;margin-bottom:6px;cursor:pointer;transition:all .2s;background:var(--bg)}
+.di:hover,.di.op{border-color:var(--olive);background:var(--olive5)}
+.di-t{font-size:12.5px;font-weight:600;color:var(--txt);display:flex;justify-content:space-between;align-items:center}
+.di-b{font-size:12px;color:var(--txt2);margin-top:6px;display:none;line-height:1.6}
+.di.op .di-b{display:block}
+.tsgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.tsc{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;transition:all .2s}
+.tsc:hover,.tsc.op{border-color:var(--olive);background:var(--olive5)}
+.tsh{padding:11px 13px;font-weight:600;font-size:12.5px;display:flex;align-items:center;gap:8px;color:var(--txt)}
+.tsb{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.tsc.op .tsb{max-height:400px}
+.tsi{padding:10px 13px 13px;font-size:12px;line-height:1.7;color:var(--txt2);background:var(--bg2);border-top:1px solid var(--border)}
+.hbanner{background:var(--redbg);border:1px solid #E08080;border-radius:8px;padding:11px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.hbanner p{font-size:12px;font-weight:600;color:var(--red)}
+.sumgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:14px}
+.sumc{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px 8px;text-align:center;cursor:pointer;transition:all .2s}
+.sumc:hover,.sumc.op{border-color:var(--olive);background:var(--olive5)}
+.sum-n{font-size:17px;font-weight:700;margin-bottom:4px}
+.sum-l{font-size:11px;font-weight:600;color:var(--txt);margin-bottom:3px}
+.sum-d{font-size:10.5px;color:var(--txt3);line-height:1.4;display:none;margin-top:7px;border-top:1px solid var(--border);padding-top:7px;text-align:left}
+.sumc.op .sum-d{display:block}
+code{background:var(--bg3);color:var(--teal);padding:2px 7px;border-radius:4px;font-size:11px;font-family:monospace}
+@media(max-width:640px){
+  .g3,.agrid,.tsgrid,.sumgrid{grid-template-columns:1fr}
+  .g2,.dsplit{grid-template-columns:1fr}
+}
+</style>
+
+<div class="wrap">
+<h2 style="position:absolute;left:-9999px">Dynatrace Deployment Assessment</h2>
+
+<div class="topnav">
+  <button class="nb on" onclick="go(0)">Title</button>
+  <button class="nb" onclick="go(1)">Customer Story</button>
+  <button class="nb" onclick="go(2)">01 Discovery</button>
+  <button class="nb" onclick="go(3)">02 Deployment</button>
+  <button class="nb" onclick="go(4)">03 Validation</button>
+  <button class="nb" onclick="go(5)">04A Alerting</button>
+  <button class="nb" onclick="go(6)">04B Dashboards</button>
+  <button class="nb" onclick="go(7)">Bonus</button>
+  <button class="nb" onclick="go(8)">Summary</button>
+  <div class="arrows">
+    <button class="ab" id="pb" onclick="prev()" disabled>&#8592;</button>
+    <button class="ab" id="nb2" onclick="nxt()">&#8594;</button>
+  </div>
+</div>
+
+<!-- SLIDE 0 TITLE -->
+<div class="slide on" id="s0">
+  <div style="border-radius:10px;overflow:hidden;border:1px solid var(--border)">
+    <div style="background:var(--olive);padding:28px 28px 24px">
+      <div style="font-size:10px;color:var(--olive4);letter-spacing:4px;margin-bottom:10px">DYNATRACE &middot; DELIVERY CONSULTANT</div>
+      <div style="font-size:30px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:6px">Deployment Assessment</div>
+      <div style="font-size:22px;font-weight:600;color:var(--olive5);margin-bottom:8px">Finance House Bank</div>
+      <div style="font-size:13px;color:var(--olive4);font-style:italic">Full-Stack Monitoring &middot; Transaction Tracing &middot; Alerting &amp; Dashboarding</div>
+    </div>
+    <div style="padding:22px 28px;background:var(--cream)">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:22px">
+        <div style="background:var(--olive5);border:1.5px solid var(--olive4);border-radius:8px;padding:14px;text-align:center">
+          <div style="font-size:22px;font-weight:700;color:var(--olive)">9</div>
+          <div style="font-size:11px;color:var(--olive);margin-top:2px;font-weight:600">Slides</div>
+        </div>
+        <div style="background:var(--olive5);border:1.5px solid var(--olive4);border-radius:8px;padding:14px;text-align:center">
+          <div style="font-size:22px;font-weight:700;color:var(--olive)">5</div>
+          <div style="font-size:11px;color:var(--olive);margin-top:2px;font-weight:600">Topics</div>
+        </div>
+        <div style="background:var(--olive5);border:1.5px solid var(--olive4);border-radius:8px;padding:14px;text-align:center">
+          <div style="font-size:22px;font-weight:700;color:var(--olive)">5</div>
+          <div style="font-size:11px;color:var(--olive);margin-top:2px;font-weight:600">Servers</div>
+        </div>
+        <div style="background:#FDEAEA;border:1.5px solid #E08080;border-radius:8px;padding:14px;text-align:center">
+          <div style="font-size:22px;font-weight:700;color:var(--red)">3</div>
+          <div style="font-size:11px;color:var(--red);margin-top:2px;font-weight:600">Incidents</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px">
+        <span style="display:inline-block;padding:6px 14px;border-radius:6px;font-size:12px;font-weight:700;background:var(--olive);color:#fff">Click any heading to expand</span>
+        <span style="display:inline-block;padding:6px 14px;border-radius:6px;font-size:12px;font-weight:600;background:var(--bg2);color:var(--txt);border:1px solid var(--border2)">Arrow keys or tabs to navigate</span>
+      </div>
+      <div style="font-size:11px;color:var(--olive);letter-spacing:3px;margin-bottom:10px;font-weight:700">JUMP TO A SECTION</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <button onclick="go(2)" style="padding:8px 16px;border-radius:6px;border:none;background:var(--olive);color:#fff;font-size:12px;cursor:pointer;font-weight:700">01 Discovery</button>
+        <button onclick="go(3)" style="padding:8px 16px;border-radius:6px;border:none;background:var(--olive);color:#fff;font-size:12px;cursor:pointer;font-weight:700">02 Deployment</button>
+        <button onclick="go(4)" style="padding:8px 16px;border-radius:6px;border:none;background:var(--olive);color:#fff;font-size:12px;cursor:pointer;font-weight:700">03 Validation</button>
+        <button onclick="go(5)" style="padding:8px 16px;border-radius:6px;border:none;background:var(--olive);color:#fff;font-size:12px;cursor:pointer;font-weight:700">04 Alerting</button>
+        <button onclick="go(6)" style="padding:8px 16px;border-radius:6px;border:none;background:var(--olive);color:#fff;font-size:12px;cursor:pointer;font-weight:700">04 Dashboards</button>
+        <button onclick="go(7)" style="padding:8px 16px;border-radius:6px;border:none;background:var(--olive);color:#fff;font-size:12px;cursor:pointer;font-weight:700">Bonus</button>
+      </div>
+    </div>
+  </div>
+  <div class="sc">Slide 1 of 9</div>
+</div>
+
+<!-- SLIDE 1 CUSTOMER STORY -->
+<div class="slide" id="s1">
+  <div class="sh"><div class="sn">Customer Story</div><div class="st">Finance House Bank</div><div class="ss">Understanding the problem before we solve it</div></div>
+  <div class="sb">
+    <div class="hint">Click any incident or requirement to see why it matters</div>
+    <div class="hbanner"><span style="font-size:16px;color:var(--red)">&#9888;</span><p>PRODUCTION INCIDENTS &mdash; Click each to understand the impact</p></div>
+    <div class="g3" style="margin-bottom:12px">
+      <div class="acc" onclick="tog(this)"><div class="ah"><div class="ai" style="background:var(--redbg);font-size:15px;color:var(--red)">&#128722;</div><div class="al"><div class="al-t">Slow Login Times</div><div class="al-s">User-reported performance</div></div><div class="chev">&#9660;</div></div><div class="ab2"><div class="ac"><span class="tag tw">Why it matters</span><p>Indicates a bottleneck in the request chain &mdash; could be IIS, the .NET Login API, or a slow SQL session query. Users notice anything over 2 seconds. Dynatrace traces the exact millisecond breakdown at every tier.</p></div></div></div>
+      <div class="acc" onclick="tog(this)"><div class="ah"><div class="ai" style="background:var(--redbg);font-size:15px;color:var(--red)">&#128184;</div><div class="al"><div class="al-t">Failed Fund Transfers</div><div class="al-s">Business-critical failures</div></div><div class="chev">&#9660;</div></div><div class="ab2"><div class="ac"><span class="tag tc">Critical</span><p>Worst kind of incident &mdash; directly affects customer money. Points to errors in the Fund Transfer API or database write failures. Dynatrace captures every exception and SQL error with full stack trace.</p></div></div></div>
+      <div class="acc" onclick="tog(this)"><div class="ah"><div class="ai" style="background:var(--redbg);font-size:15px;color:var(--red)">&#8987;</div><div class="al"><div class="al-t">API Timeouts</div><div class="al-s">Intermittent drops</div></div><div class="chev">&#9660;</div></div><div class="ab2"><div class="ac"><span class="tag tw">Hardest to catch</span><p>Suggests resource exhaustion &mdash; thread pool, connection pool, or memory pressure. Only appears under load. Dynatrace AI baseline detection catches these automatically.</p></div></div></div>
+    </div>
+    <div style="font-size:10px;color:var(--olive);letter-spacing:3px;margin-bottom:8px;font-weight:700">INFRASTRUCTURE</div>
+    <div class="g3" style="margin-bottom:12px">
+      <div class="acc" onclick="tog(this)"><div class="ah"><div class="ai" style="background:var(--tealbg);color:var(--teal)">S</div><div class="al"><div class="al-t">2 Web Servers</div><div class="al-s">IIS / .NET Frontend</div></div><div class="chev">&#9660;</div></div><div class="ab2"><div class="ac"><span class="tag th2">OneAgent goes here</span><p>Host the customer-facing banking website. IIS handles HTTP requests and routes to .NET apps. OneAgent monitors every page request, response time, and error at the web layer.</p></div></div></div>
+      <div class="acc" onclick="tog(this)"><div class="ah"><div class="ai" style="background:var(--tealbg);color:var(--teal)">A</div><div class="al"><div class="al-t">2 App Servers</div><div class="al-s">.NET APIs + Windows Svc</div></div><div class="chev">&#9660;</div></div><div class="ab2"><div class="ac"><span class="tag th2">Business logic layer</span><p>Run .NET APIs (Login, Fund Transfer, Account Balance) and background Windows Services. OneAgent instruments each process and captures all inter-service calls including SQL calls.</p></div></div></div>
+      <div class="acc" onclick="tog(this)"><div class="ah"><div class="ai" style="background:var(--tealbg);color:var(--teal)">D</div><div class="al"><div class="al-t">1 SQL + 2 ActiveGates</div><div class="al-s">Database + DT Relay</div></div><div class="chev">&#9660;</div></div><div class="ab2"><div class="ac"><span class="tag th2">Data + communication</span><p>SQL Server stores all banking data. OneAgent captures every query. 2 ActiveGates relay data from all 5 servers to Dynatrace cloud. 2 means high availability.</p></div></div></div>
+    </div>
+    <div style="font-size:10px;color:var(--olive);letter-spacing:3px;margin-bottom:8px;font-weight:700">REQUIREMENTS</div>
+    <div class="g2">
+      <div class="acc" onclick="tog(this)"><div class="ah"><div class="ai" style="background:var(--greenbg);color:var(--green)">&#10003;</div><div class="al"><div class="al-t">Full-Stack Monitoring</div></div><div class="chev">&#9660;</div></div><div class="ab2"><div class="ac"><span class="tag tg">Why</span><p>Monitors every layer &mdash; web, application, database &mdash; in one platform. No more switching between 5 tools. OneAgent auto-discovers everything.</p></div></div></div>
+      <div class="acc" onclick="tog(this)"><div class="ah"><div class="ai" style="background:var(--greenbg);color:var(--green)">&#10003;</div><div class="al"><div class="al-t">Transaction Tracing</div></div><div class="chev">&#9660;</div></div><div class="ab2"><div class="ac"><span class="tag tg">Why</span><p>Follows one user request &mdash; Login click to Web Server to API to Database &mdash; as one connected PurePath trace. Exact milliseconds at every tier.</p></div></div></div>
+      <div class="acc" onclick="tog(this)"><div class="ah"><div class="ai" style="background:var(--greenbg);color:var(--green)">&#10003;</div><div class="al"><div class="al-t">SQL Visibility</div></div><div class="chev">&#9660;</div></div><div class="ab2"><div class="ac"><span class="tag tg">Why</span><p>Captures every SQL statement, response time, call frequency, and which application triggered it. Slow queries are the #1 cause of slow banking applications.</p></div></div></div>
+      <div class="acc" onclick="tog(this)"><div class="ah"><div class="ai" style="background:var(--greenbg);color:var(--green)">&#10003;</div><div class="al"><div class="al-t">Synthetic Monitoring</div></div><div class="chev">&#9660;</div></div><div class="ab2"><div class="ac"><span class="tag tg">Why</span><p>A robot user tests the login page every 5 minutes, 24/7. If it's slow or broken at 3am, Dynatrace alerts before any real customer notices.</p></div></div></div>
+    </div>
+  </div>
+  <div class="sc">Slide 2 of 9</div>
+</div>
+
+<!-- SLIDE 2 DISCOVERY -->
+<div class="slide" id="s2">
+  <div class="sh"><div class="sn">Question 01</div><div class="st">Discovery &amp; Planning</div><div class="ss">Ask the right questions before touching a single server</div></div>
+  <div class="sb">
+    <div class="hint">Click each category to see what to ask and why it matters</div>
+    <div class="g2">
+      <div class="acc" onclick="tog(this)"><div class="ah"><div class="ai" style="background:var(--bluebg);color:var(--blue)">&#128187;</div><div class="al"><div class="al-t">Environment Details</div><div class="al-s">Servers, OS, hardware specs</div></div><div class="chev">&#9660;</div></div><div class="ab2"><div class="ac"><span class="tag tg">Why first</span><p>You cannot plan an installation without knowing server count, OS, and specs. OneAgent needs admin access to each machine. RAM and CPU help size the monitoring impact.</p><span class="tag th2">Ask this</span><p>"Can you give us a full server inventory &mdash; hostnames, IPs, OS version, RAM and CPU per server?"</p></div></div></div>
+      <div class="acc" onclick="tog(this)"><div class="ah"><div class="ai" style="background:var(--amberbg);color:var(--amber)">&#128279;</div><div class="al"><div class="al-t">Network &amp; Firewall</div><div class="al-s">Ports, proxy, internet access</div></div><div class="chev">&#9660;</div></div><div class="ab2"><div class="ac"><span class="tag tw">Submit Day 1!</span><p>Firewall changes at banks take 3 to 5 days to approve. OneAgent needs port 9999 to ActiveGate, ActiveGate needs port 443 to Dynatrace cloud.</p><span class="tag th2">Ask this</span><p>"Who manages the firewall? We need to submit a change request immediately."</p></div></div></div>
+      <div class="acc" onclick="tog(this)"><div class="ah"><div class="ai" style="background:var(--amberbg);color:var(--amber)">&#128272;</div><div class="al"><div class="al-t">Access &amp; Permissions</div><div class="al-s">Admin rights, change management</div></div><div class="chev">&#9660;</div></div><div class="ab2"><div class="ac"><span class="tag tw">Banks are strict</span><p>Change Advisory Boards must approve every production installation. Missing this means no access on day one.</p><span class="tag th2">Ask this</span><p>"What is your change management process? Can we get a dedicated admin account?"</p></div></div></div>
+      <div class="acc" onclick="tog(this)"><div class="ah"><div class="ai" style="background:var(--bluebg);color:var(--blue)">&#127760;</div><div class="al"><div class="al-t">Application Architecture</div><div class="al-s">.NET version, service flow</div></div><div class="chev">&#9660;</div></div><div class="ab2"><div class="ac"><span class="tag th2">Why</span><p>Dynatrace follows transactions through the system &mdash; but only if you know the architecture. Which APIs exist? What .NET version? Are there Windows Services running in the background?</p><span class="tag th2">Ask this</span><p>"Walk us through the request flow when a user clicks Login."</p></div></div></div>
+      <div class="acc" onclick="tog(this)"><div class="ah"><div class="ai" style="background:var(--amberbg);color:var(--amber)">&#128451;</div><div class="al"><div class="al-t">Database Details</div><div class="al-s">SQL version, sensitivity</div></div><div class="chev">&#9660;</div></div><div class="ab2"><div class="ac"><span class="tag th2">Why</span><p>Dynatrace shows every SQL query &mdash; but some banks want sensitive data masked. SQL Server version determines which OneAgent sensor to use.</p><span class="tag th2">Ask this</span><p>"What SQL Server version? Any data sensitivity requirements around query capture?"</p></div></div></div>
+      <div class="acc" onclick="tog(this)"><div class="ah"><div class="ai" style="background:var(--greenbg);color:var(--green)">&#127919;</div><div class="al"><div class="al-t">Definition of Success</div><div class="al-s">Incidents, SLAs, alert owners</div></div><div class="chev">&#9660;</div></div><div class="ab2"><div class="ac"><span class="tag tg">Most important</span><p>Capture the baseline &mdash; how slow was login before? How many incidents last month? Then show improvement after to prove the Proof of Value.</p><span class="tag th2">Ask this</span><p>"How many production incidents last month? What is your acceptable login response time?"</p></div></div></div>
+    </div>
+  </div>
+  <div class="sc">Slide 3 of 9</div>
+</div>
+
+<!-- SLIDE 3 DEPLOYMENT -->
+<div class="slide" id="s3">
+  <div class="sh"><div class="sn">Question 02</div><div class="st">Deployment Approach</div><div class="ss">Correct sequence is critical &mdash; like building a house, foundation first</div></div>
+  <div class="sb">
+    <div class="hint">Click each numbered step to see the full deployment explanation</div>
+    <div class="steps">
+      <div class="sk" onclick="toggleStep(0)"><div class="snum" style="background:var(--red)">1</div><div class="slbl">Firewall Rules</div><div class="ssub">Ports 443 &amp; 9999</div></div>
+      <div class="sarr">&#8594;</div>
+      <div class="sk" onclick="toggleStep(1)"><div class="snum" style="background:var(--amber)">2</div><div class="slbl">Env Separation</div><div class="ssub">UAT vs Production</div></div>
+      <div class="sarr">&#8594;</div>
+      <div class="sk" onclick="toggleStep(2)"><div class="snum" style="background:var(--teal)">3</div><div class="slbl">ActiveGates</div><div class="ssub">2 servers (HA)</div></div>
+      <div class="sarr">&#8594;</div>
+      <div class="sk" onclick="toggleStep(3)"><div class="snum" style="background:var(--olive)">4</div><div class="slbl">OneAgent Web</div><div class="ssub">IIS / .NET</div></div>
+      <div class="sarr">&#8594;</div>
+      <div class="sk" onclick="toggleStep(4)"><div class="snum" style="background:var(--olive)">5</div><div class="slbl">OneAgent App</div><div class="ssub">.NET APIs</div></div>
+      <div class="sarr">&#8594;</div>
+      <div class="sk" onclick="toggleStep(5)"><div class="snum" style="background:var(--green)">6</div><div class="slbl">OneAgent SQL</div><div class="ssub">Database</div></div>
+    </div>
+    <div id="sdet" class="sdet"><p id="sdet-txt"></p></div>
+    <div style="font-size:10px;color:var(--olive);letter-spacing:3px;margin:14px 0 8px;font-weight:700">FIREWALL REQUIREMENTS</div>
+    <div class="g3">
+      <div class="acc" onclick="tog(this)"><div class="ah"><div class="ai" style="background:var(--redbg);color:var(--red);font-size:11px;font-weight:700">9999</div><div class="al"><div class="al-t">Port 9999</div><div class="al-s">OneAgent to ActiveGate</div></div><div class="chev">&#9660;</div></div><div class="ab2"><div class="ac"><span class="tag th2">Purpose</span><p>Main channel between OneAgent and the ActiveGate. All monitoring data &mdash; metrics, traces, logs &mdash; travels over this encrypted HTTPS connection. Without it, OneAgent is silent.</p></div></div></div>
+      <div class="acc" onclick="tog(this)"><div class="ah"><div class="ai" style="background:var(--bluebg);color:var(--blue);font-size:11px;font-weight:700">443</div><div class="al"><div class="al-t">Port 443 (Outbound)</div><div class="al-s">ActiveGate to DT Cloud</div></div><div class="chev">&#9660;</div></div><div class="ab2"><div class="ac"><span class="tag th2">Purpose</span><p>Standard HTTPS &mdash; same port your browser uses. ActiveGate bundles all data and sends to Dynatrace SaaS. Banks are comfortable with 443 because it is encrypted and standard.</p></div></div></div>
+      <div class="acc" onclick="tog(this)"><div class="ah"><div class="ai" style="background:var(--bluebg);color:var(--blue);font-size:11px;font-weight:700">443</div><div class="al"><div class="al-t">Port 443 (UI Access)</div><div class="al-s">Your PC to Dynatrace</div></div><div class="chev">&#9660;</div></div><div class="ab2"><div class="ac"><span class="tag th2">Purpose</span><p>Allows your browser and the customer team to access the Dynatrace web interface &mdash; used every time you configure alerts, view dashboards, or check traces.</p></div></div></div>
+    </div>
+  </div>
+  <div class="sc">Slide 4 of 9</div>
+</div>
+
+<!-- SLIDE 4 VALIDATION -->
+<div class="slide" id="s4">
+  <div class="sh"><div class="sn">Question 03</div><div class="st">Validation &amp; Testing</div><div class="ss">Deployment is only half the job &mdash; proving it works is the other half</div></div>
+  <div class="sb">
+    <div class="hint">Click each layer to see what to check and how to verify it</div>
+    <div class="layers">
+      <div class="lay" onclick="togLayer(this)"><div class="lh"><div class="lb2" style="background:var(--amber)">5</div><div class="lt"><div class="lt-h">Synthetic Monitoring</div><div class="lt-s">24/7 robot user testing the login page</div></div><div class="lchev">&#9660;</div></div><div class="lbody"><div class="linner"><span class="tag tw">Highest value for management</span><p>A robot tests the login page every 5 minutes. Alerts before any real customer notices. HTTP Monitor (availability) and Browser Clickpath (full login journey with credentials and page verification).</p><p>Verify: Dynatrace &gt; Synthetic &mdash; should show "Last run: 3 min ago, SUCCESS" with response time under 2 seconds.</p></div></div></div>
+      <div class="lay" onclick="togLayer(this)"><div class="lh"><div class="lb2" style="background:var(--teal)">4</div><div class="lt"><div class="lt-h">Transaction Tracing (PurePath)</div><div class="lt-s">Full end-to-end trace: Web to App to Database</div></div><div class="lchev">&#9660;</div></div><div class="lbody"><div class="linner"><span class="tag tg">Most powerful validation</span><p>Login click &gt; IIS (450ms) &gt; Login API (280ms) &gt; SQL query (120ms) &mdash; all in one waterfall view.</p><p>Verify: Open banking app &gt; Login &gt; Dynatrace &gt; Distributed Traces. Within 60 seconds your trace should appear with all 3 tiers connected.</p></div></div></div>
+      <div class="lay" onclick="togLayer(this)"><div class="lh"><div class="lb2" style="background:var(--olive)">3</div><div class="lt"><div class="lt-h">Application Services</div><div class="lt-s">.NET APIs and Windows Services auto-detected</div></div><div class="lchev">&#9660;</div></div><div class="lbody"><div class="linner"><span class="tag th2">Check: Dynatrace &gt; Services</span><p>Every .NET API and Windows Service appears automatically. Verify Request Rate (not zero), Response Time, Error Rate (near 0% in UAT).</p><p>Live test: Do a login &mdash; go to Services &gt; Login API &mdash; request count increments by 1 in real-time. This confirms instrumentation is working.</p></div></div></div>
+      <div class="lay" onclick="togLayer(this)"><div class="lh"><div class="lb2" style="background:var(--amber)">2</div><div class="lt"><div class="lt-h">Database / SQL Visibility</div><div class="lt-s">SQL queries captured with response times</div></div><div class="lchev">&#9660;</div></div><div class="lbody"><div class="linner"><span class="tag th2">Check: Dynatrace &gt; Technologies &gt; Database</span><p>SQL Server appears automatically. Statements captured with values masked as "?" for security. Healthy: queries under 100ms. Over 1000ms is a flag worth investigating.</p></div></div></div>
+      <div class="lay" onclick="togLayer(this)"><div class="lh"><div class="lb2" style="background:var(--olive2)">1</div><div class="lt"><div class="lt-h">Infrastructure Monitoring</div><div class="lt-s">All 5 hosts visible with CPU, Memory, Disk</div></div><div class="lchev">&#9660;</div></div><div class="lbody"><div class="linner"><span class="tag th2">Check: Dynatrace &gt; Hosts</span><p>All 5 servers appear. Confirm CPU%, Memory%, Disk I/O, Network Traffic show real-time graphs. Both ActiveGates show "Connected". UAT servers only in UAT environment, Production only in Production.</p></div></div></div>
+    </div>
+  </div>
+  <div class="sc">Slide 5 of 9</div>
+</div>
+
+<!-- SLIDE 5 ALERTING -->
+<div class="slide" id="s5">
+  <div class="sh"><div class="sn">Question 04A</div><div class="st">Alerting Configuration</div><div class="ss">The alarm bell &mdash; right person notified at the right time</div></div>
+  <div class="sb">
+    <div class="hint">Click any alert trigger to understand what causes it and why it matters</div>
+    <div class="agrid">
+      <div class="acard">
+        <div class="ahead" style="background:var(--redbg);color:var(--red)">Critical &mdash; Immediate, any time</div>
+        <div class="aitems">
+          <div class="aitem" onclick="togAlert(this)"><div class="adot" style="background:var(--red)"></div><span>Application unavailable</span></div>
+          <div class="att">Entire banking platform is down. Fires to on-call engineer AND IT manager via SMS within 60 seconds of detection.</div>
+          <div class="aitem" onclick="togAlert(this)"><div class="adot" style="background:var(--red)"></div><span>Synthetic monitor failing</span></div>
+          <div class="att">Robot user cannot log in &mdash; meaning real customers cannot either. Triggers before any complaint. Proactive detection at its best.</div>
+          <div class="aitem" onclick="togAlert(this)"><div class="adot" style="background:var(--red)"></div><span>Error rate &gt; 10%</span></div>
+          <div class="att">More than 1 in 10 requests failing. Mass failure &mdash; fund transfers broken, logins failing. Needs immediate attention regardless of time.</div>
+          <div class="aitem" onclick="togAlert(this)"><div class="adot" style="background:var(--red)"></div><span>Database unreachable</span></div>
+          <div class="att">SQL Server cannot be reached. Zero transactions can complete &mdash; login, balance, fund transfer all fail simultaneously.</div>
+          <div class="aitem" onclick="togAlert(this)"><div class="adot" style="background:var(--red)"></div><span>Fund Transfer API errors</span></div>
+          <div class="att">The exact incident Finance House Bank already experienced. Dedicated alert because it directly involves customer money.</div>
+        </div>
+      </div>
+      <div class="acard">
+        <div class="ahead" style="background:var(--amberbg);color:var(--amber)">Warning &mdash; Business hours only</div>
+        <div class="aitems">
+          <div class="aitem" onclick="togAlert(this)"><div class="adot" style="background:var(--amber)"></div><span>Response time degradation</span></div>
+          <div class="att">APIs slow but not broken. Dynatrace AI learns the normal baseline and alerts if it jumps to 2x. Catch degradation before it becomes an outage.</div>
+          <div class="aitem" onclick="togAlert(this)"><div class="adot" style="background:var(--amber)"></div><span>CPU &gt; 70% / Memory &gt; 75%</span></div>
+          <div class="att">Infrastructure under pressure. Investigate in business hours before it becomes a 2am critical incident.</div>
+          <div class="aitem" onclick="togAlert(this)"><div class="adot" style="background:var(--amber)"></div><span>Error rate 2 to 10%</span></div>
+          <div class="att">Some requests failing but not a mass event. Could be a bug from a recent deployment or a specific API under stress.</div>
+          <div class="aitem" onclick="togAlert(this)"><div class="adot" style="background:var(--amber)"></div><span>Disk usage &gt; 80%</span></div>
+          <div class="att">At 100% disk, server stops writing logs and data. 80% gives time to clean up before disaster hits.</div>
+          <div class="aitem" onclick="togAlert(this)"><div class="adot" style="background:var(--amber)"></div><span>SQL queries &gt; 2 seconds</span></div>
+          <div class="att">A query that should take 100ms is taking 2000ms. DBA needs to investigate &mdash; likely missing index or data growth.</div>
+        </div>
+      </div>
+      <div class="acard">
+        <div class="ahead" style="background:var(--tealbg);color:var(--teal)">Info &mdash; Daily digest</div>
+        <div class="aitems">
+          <div class="aitem" onclick="togAlert(this)"><div class="adot" style="background:var(--teal)"></div><span>New service detected</span></div>
+          <div class="att">Dynatrace auto-discovered a new .NET service or Windows process. Could be legitimate or unauthorized &mdash; good to know either way.</div>
+          <div class="aitem" onclick="togAlert(this)"><div class="adot" style="background:var(--teal)"></div><span>OneAgent update available</span></div>
+          <div class="att">Newer OneAgent version available. Sent to admin to plan an update during the next maintenance window.</div>
+          <div class="aitem" onclick="togAlert(this)"><div class="adot" style="background:var(--teal)"></div><span>Configuration change</span></div>
+          <div class="att">Someone changed a Dynatrace setting. Important for audit trails in a bank &mdash; all changes must be tracked for compliance.</div>
+          <div class="aitem" onclick="togAlert(this)"><div class="adot" style="background:var(--teal)"></div><span>Baseline learning complete</span></div>
+          <div class="att">Dynatrace finished its 7-day learning period. AI anomaly detection is now fully active and much more accurate.</div>
+        </div>
+      </div>
+    </div>
+    <div style="font-size:10px;color:var(--olive);letter-spacing:3px;margin:12px 0 8px;font-weight:700">NOTIFICATION CHANNELS</div>
+    <div class="g2">
+      <div class="acc" onclick="tog(this)"><div class="ah"><div class="ai" style="background:var(--bluebg);color:var(--blue)">@</div><div class="al"><div class="al-t">Email Notifications</div><div class="al-s">Critical + Warning alerts</div></div><div class="chev">&#9660;</div></div><div class="ab2"><div class="ac"><p>Sent to technical team and IT manager. Includes: problem title, affected service, start time, user impact count, and direct Dynatrace link.</p></div></div></div>
+      <div class="acc" onclick="tog(this)"><div class="ah"><div class="ai" style="background:var(--tealbg);color:var(--teal)">T</div><div class="al"><div class="al-t">Microsoft Teams Channel</div><div class="al-s">Critical alerts only</div></div><div class="chev">&#9660;</div></div><div class="ab2"><div class="ac"><p>Dedicated Teams channel for instant Critical alert cards. Whole team sees it simultaneously. Shows service name, severity, and direct Dynatrace link. Fastest way to mobilize the team.</p></div></div></div>
+    </div>
+  </div>
+  <div class="sc">Slide 6 of 9</div>
+</div>
+
+<!-- SLIDE 6 DASHBOARDS -->
+<div class="slide" id="s6">
+  <div class="sh"><div class="sn">Question 04B</div><div class="st">Dashboard Configuration</div><div class="ss">Make data visible and actionable for each audience</div></div>
+  <div class="sb">
+    <div class="hint">Click any panel to see what it shows and why it matters</div>
+    <div class="dsplit">
+      <div class="dcard">
+        <div class="dhead" style="color:var(--amber)">Executive Dashboard &mdash; IT Management</div>
+        <div class="ditems">
+          <div class="di" onclick="togDash(this)"><div class="di-t"><span>Application Health Status</span><span style="color:var(--olive2);font-size:11px">&#9660;</span></div><div class="di-b">Traffic-light: Green/Yellow/Red per service. Managers understand at a glance &mdash; no technical knowledge needed.</div></div>
+          <div class="di" onclick="togDash(this)"><div class="di-t"><span>Monthly Availability %</span><span style="color:var(--olive2);font-size:11px">&#9660;</span></div><div class="di-b">Uptime % vs agreed SLA target (e.g. 99.7% vs 99.5%). The board-level metric that drives monthly service report conversations.</div></div>
+          <div class="di" onclick="togDash(this)"><div class="di-t"><span>Apdex User Score</span><span style="color:var(--olive2);font-size:11px">&#9660;</span></div><div class="di-b">Single score 0.0 to 1.0 measuring user happiness. 0.87 means 87% of users have a good experience. Replaces 10 metrics with one number.</div></div>
+          <div class="di" onclick="togDash(this)"><div class="di-t"><span>Incidents This Month</span><span style="color:var(--olive2);font-size:11px">&#9660;</span></div><div class="di-b">Critical incident count, % resolved within SLA, average resolution time. The Proof of Value metric &mdash; before vs after Dynatrace in plain numbers.</div></div>
+          <div class="di" onclick="togDash(this)"><div class="di-t"><span>Top 5 Slowest Transactions</span><span style="color:var(--olive2);font-size:11px">&#9660;</span></div><div class="di-b">Ranked list: Fund Transfer (4.2s), Statement (3.8s), Login (2.1s). Prioritized fix list for management without technical jargon.</div></div>
+        </div>
+      </div>
+      <div class="dcard">
+        <div class="dhead" style="color:var(--teal)">Technical Operations Dashboard</div>
+        <div class="ditems">
+          <div class="di" onclick="togDash(this)"><div class="di-t"><span>Real-Time Service Health</span><span style="color:var(--olive2);font-size:11px">&#9660;</span></div><div class="di-b">Live table: Service | Req/min | Response Time | Error Rate. Engineers see which API is struggling at a glance.</div></div>
+          <div class="di" onclick="togDash(this)"><div class="di-t"><span>Infrastructure Health Panel</span><span style="color:var(--olive2);font-size:11px">&#9660;</span></div><div class="di-b">Per-host grid: CPU, Memory, Disk &mdash; color coded. Engineers identify which server needs attention without logging into each machine.</div></div>
+          <div class="di" onclick="togDash(this)"><div class="di-t"><span>Database Performance Panel</span><span style="color:var(--olive2);font-size:11px">&#9660;</span></div><div class="di-b">Top slowest SQL queries ranked by response time and call frequency. DBA sees which query needs an index immediately.</div></div>
+          <div class="di" onclick="togDash(this)"><div class="di-t"><span>Error Analysis Panel</span><span style="color:var(--olive2);font-size:11px">&#9660;</span></div><div class="di-b">Top errors by count: Timeout (23), SQL Deadlock (8), HTTP 500 (5), Auth Failure (142 &mdash; suspicious!). Engineers spot patterns instantly.</div></div>
+          <div class="di" onclick="togDash(this)"><div class="di-t"><span>Synthetic Monitor Status</span><span style="color:var(--olive2);font-size:11px">&#9660;</span></div><div class="di-b">Live pass/fail: Login Page UP (1.2s), Clickpath UP (3.4s), Fund Transfer SLOW (6.8s). Engineers know which journeys are degraded.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sc">Slide 7 of 9</div>
+</div>
+
+<!-- SLIDE 7 BONUS -->
+<div class="slide" id="s7">
+  <div class="sh"><div class="sn">Bonus Question</div><div class="st">Troubleshooting Scenario</div><div class="ss">All servers visible &mdash; but NO user transactions appearing</div></div>
+  <div class="sb">
+    <div class="hbanner"><span style="font-size:16px;color:var(--red)">&#10060;</span><p>SYMPTOM: Hosts OK &middot; CPU/Memory OK &middot; OneAgent installed &middot; BUT Distributed Traces = 0 &middot; Services = 0 &middot; Transactions = 0</p></div>
+    <div class="hint">Click each step to see the full diagnosis and fix</div>
+    <div class="tsgrid">
+      <div class="tsc" onclick="togTs(this)"><div class="tsh"><div class="snum" style="background:var(--red);width:24px;height:24px;font-size:11px;flex-shrink:0">1</div>IIS Restart</div><div class="tsb"><div class="tsi"><span class="tag tc">#1 Most common &mdash; 80% of cases</span><p>OneAgent injects into .NET processes when they START. If IIS was running during install, it missed the injection window.</p><p>Fix: Run <code>iisreset</code> on all Web Servers as Administrator. Restart Windows Services too. Wait 5 minutes and check Distributed Traces.</p></div></div></div>
+      <div class="tsc" onclick="togTs(this)"><div class="tsh"><div class="snum" style="background:var(--amber);width:24px;height:24px;font-size:11px;flex-shrink:0">2</div>Process Monitoring</div><div class="tsb"><div class="tsi"><span class="tag tw">Check second</span><p>Hosts &gt; Web Server &gt; Processes. Look for w3wp.exe. Should show "MONITORED". If "NOT MONITORED" &mdash; OneAgent sees the process but is not instrumenting it.</p><p>Fix: Check Settings &gt; Excluded Processes. Remove w3wp.exe if listed.</p></div></div></div>
+      <div class="tsc" onclick="togTs(this)"><div class="tsh"><div class="snum" style="background:var(--teal);width:24px;height:24px;font-size:11px;flex-shrink:0">3</div>Deep Monitoring</div><div class="tsb"><div class="tsi"><span class="tag th2">#2 Most common</span><p>Level 1 (Infrastructure) works immediately &mdash; that is why servers appear. Level 2 (Deep Monitoring) captures transactions and must be explicitly enabled.</p><p>Check: Settings &gt; Deep Monitoring &gt; .NET, ASP.NET, IIS all ON. Enable, save, then iisreset.</p></div></div></div>
+      <div class="tsc" onclick="togTs(this)"><div class="tsh"><div class="snum" style="background:var(--olive);width:24px;height:24px;font-size:11px;flex-shrink:0">4</div>Generate Traffic</div><div class="tsb"><div class="tsi"><span class="tag th2">Confirm there is something to monitor</span><p>Open banking app &gt; Login &gt; Fund Transfer &gt; check Distributed Traces within 60 seconds.</p><p>Trace appears = Dynatrace works, just needed traffic. No trace = continue to Step 5.</p></div></div></div>
+      <div class="tsc" onclick="togTs(this)"><div class="tsh"><div class="snum" style="background:var(--amber);width:24px;height:24px;font-size:11px;flex-shrink:0">5</div>Read OneAgent Logs</div><div class="tsb"><div class="tsi"><span class="tag tw">Logs tell the truth</span><p>Location: <code>C:\ProgramData\dynatrace\oneagent\log\</code></p><p>"Cannot connect to ActiveGate" = firewall issue. "Instrumentation skipped" = needs iisreset. "Deep monitoring disabled" = settings issue.</p></div></div></div>
+      <div class="tsc" onclick="togTs(this)"><div class="tsh"><div class="snum" style="background:var(--olive2);width:24px;height:24px;font-size:11px;flex-shrink:0">6</div>Environment / Zone</div><div class="tsb"><div class="tsi"><span class="tag th2">Easy to miss</span><p>Is OneAgent pointing to the UAT ActiveGate but you are looking in the Production Dynatrace tenant? The data is there &mdash; just in the wrong place.</p><p>Check: <code>C:\ProgramData\dynatrace\oneagent\agent\config\</code> &mdash; the server= line must match the correct ActiveGate URL.</p></div></div></div>
+    </div>
+  </div>
+  <div class="sc">Slide 8 of 9</div>
+</div>
+
+<!-- SLIDE 8 SUMMARY -->
+<div class="slide" id="s8">
+  <div class="sh"><div class="sn">Summary</div><div class="st">Key Takeaways</div><div class="ss">Click each topic to review the core principle</div></div>
+  <div class="sb">
+    <div class="hint">Click each card to expand the key takeaway</div>
+    <div class="sumgrid">
+      <div class="sumc" onclick="togSum(this)"><div class="sum-n" style="color:var(--teal)">01</div><div class="sum-l">Discovery</div><div style="font-size:10px;color:var(--txt3)">Ask first, deploy second</div><div class="sum-d">Gather: server inventory, firewall details (Day 1!), admin access, app architecture, DB version, and define "success" before touching anything.</div></div>
+      <div class="sumc" onclick="togSum(this)"><div class="sum-n" style="color:var(--amber)">02</div><div class="sum-l">Deployment</div><div style="font-size:10px;color:var(--txt3)">Order is everything</div><div class="sum-d">Firewall &gt; Env Separation &gt; ActiveGate (both, HA) &gt; OneAgent Web &gt; App &gt; SQL. Always UAT first. Always iisreset after install.</div></div>
+      <div class="sumc" onclick="togSum(this)"><div class="sum-n" style="color:var(--green)">03</div><div class="sum-l">Validation</div><div style="font-size:10px;color:var(--txt3)">5 layers, all must pass</div><div class="sum-d">Infrastructure &gt; SQL &gt; Services &gt; Transaction Tracing &gt; Synthetic. Generate live traffic to confirm traces.</div></div>
+      <div class="sumc" onclick="togSum(this)"><div class="sum-n" style="color:var(--amber)">04</div><div class="sum-l">Alerting</div><div style="font-size:10px;color:var(--txt3)">Right person, right time</div><div class="sum-d">3 tiers: Critical (on-call, SMS, any time) &gt; Warning (team, business hours) &gt; Info (manager, daily digest).</div></div>
+      <div class="sumc" onclick="togSum(this)"><div class="sum-n" style="color:var(--red)">05</div><div class="sum-l">Troubleshoot</div><div style="font-size:10px;color:var(--txt3)">Eliminate, don't guess</div><div class="sum-d">No traces? iisreset first (80% fix). Then check Deep Monitoring. Then read OneAgent logs.</div></div>
+    </div>
+    <div class="acc" onclick="tog(this)">
+      <div class="ah"><div class="ai" style="background:var(--greenbg);color:var(--green);font-size:16px">&#127942;</div><div class="al"><div class="al-t">Proof of Value &mdash; demonstrating success to Finance House Bank</div><div class="al-s">The deliverable that proves Dynatrace was worth it</div></div><div class="chev">&#9660;</div></div>
+      <div class="ab2"><div class="ac"><span class="tag tg">Present this in the Knowledge Transfer session</span><p>Before Dynatrace: 12 production incidents per month, 4 hour average resolution, 97.2% availability, 3 fund transfer failures per week.</p><p>After Dynatrace (30 days): 2 incidents, 18 minute resolution, 99.8% availability, 0 fund transfer failures &mdash; all caught proactively before customers were affected.</p></div></div>
+    </div>
+  </div>
+  <div class="sc">Slide 9 of 9</div>
+</div>
+</div>
+
+<script>
+var cur=0,tot=9,curStep=-1;
+var stepTxt=[
+  '<strong style="color:#8B2020">Step 1 &mdash; Firewall Rules</strong><br><br>Submit change requests on Day 1. Banks take 3 to 5 days to approve. You need port 9999 from all 5 servers to ActiveGate, and port 443 from ActiveGate to the internet. Without this, nothing else works.',
+  '<strong style="color:#7A5010">Step 2 &mdash; Environment Separation</strong><br><br>Create two separate Dynatrace environments: UAT and Production. Non-negotiable for banks. UAT incidents must never appear in Production dashboards. UAT is your practice run before touching Production.',
+  '<strong style="color:#0F5048">Step 3 &mdash; ActiveGate Deployment</strong><br><br>Deploy both ActiveGate servers before any OneAgent. OneAgent needs to know where to send its data. Deploy both for High Availability. Deploy UAT first, then Production.',
+  '<strong style="color:#4A5240">Step 4 &mdash; OneAgent on Web Servers</strong><br><br>Install on both IIS/.NET web servers as Administrator. CRITICAL: After installation, run iisreset. Without restarting IIS, OneAgent cannot inject into .NET processes and no transactions will appear.',
+  '<strong style="color:#4A5240">Step 5 &mdash; OneAgent on App Servers</strong><br><br>Install on both application servers. After install, restart each Windows Service individually. OneAgent will then auto-discover all .NET APIs and start capturing transactions.',
+  '<strong style="color:#2D5A1A">Step 6 &mdash; OneAgent on SQL Server</strong><br><br>Last layer: the database. Enables SQL query capture, response time measurement, and connection pool monitoring. Verify in Dynatrace &gt; Technologies &gt; Database that SQL Server appears.'
+];
+function go(n){
+  document.querySelectorAll('.slide').forEach(function(s){s.classList.remove('on')});
+  document.querySelectorAll('.nb').forEach(function(b,i){b.classList.toggle('on',i===n)});
+  var el=document.getElementById('s'+n);
+  if(el)el.classList.add('on');
+  cur=n;
+  document.getElementById('pb').disabled=(n===0);
+  document.getElementById('nb2').disabled=(n===tot-1);
+}
+function prev(){if(cur>0)go(cur-1)}
+function nxt(){if(cur<tot-1)go(cur+1)}
+function tog(el){
+  var was=el.classList.contains('op');
+  var p=el.closest('.g2,.g3,.sb');
+  if(p)p.querySelectorAll('.acc').forEach(function(a){a.classList.remove('op')});
+  if(!was)el.classList.add('op');
+}
+function togLayer(el){
+  var was=el.classList.contains('op');
+  el.closest('.layers').querySelectorAll('.lay').forEach(function(l){l.classList.remove('op')});
+  if(!was)el.classList.add('op');
+}
+function toggleStep(idx){
+  var cards=document.querySelectorAll('.sk');
+  var box=document.getElementById('sdet');
+  var txt=document.getElementById('sdet-txt');
+  if(curStep===idx){cards.forEach(function(c){c.classList.remove('op')});box.classList.remove('on');curStep=-1;return;}
+  cards.forEach(function(c){c.classList.remove('op')});
+  cards[idx].classList.add('op');
+  txt.innerHTML=stepTxt[idx];
+  box.classList.add('on');
+  curStep=idx;
+}
+function togAlert(el){
+  var was=el.classList.contains('op');
+  el.closest('.aitems').querySelectorAll('.aitem').forEach(function(a){a.classList.remove('op')});
+  if(!was)el.classList.add('op');
+}
+function togDash(el){el.classList.toggle('op')}
+function togTs(el){el.classList.toggle('op')}
+function togSum(el){el.classList.toggle('op')}
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowRight'||e.key===' ')nxt();
+  if(e.key==='ArrowLeft')prev();
+});
+</script>
